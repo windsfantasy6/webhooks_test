@@ -14,7 +14,13 @@ app.use(bodyParser.json());
 var received_updates = [];
 
 app.get('/', function(req, res) {
-  res.send('<pre>' + JSON.stringify(received_updates, null, 2) + '</pre>');
+  if (req.param('hub.mode') != 'subscribe'
+      || req.param('hub.verify_token') != process.env.VERIFY_TOKEN) {
+    res.sendStatus(401);
+    return;
+  }
+
+  res.send(req.param('hub.challenge'));
 });
 
 app.get('/webhooks', function(req, res) {
