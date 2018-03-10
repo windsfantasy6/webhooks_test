@@ -28,6 +28,9 @@ app.get('/webhooks', function(req, res) {
       || req.param('hub.verify_token') != process.env.VERIFY_TOKEN) {
     res.sendStatus(401);
     return;
+  } else {
+    req.send(req.param('hub.mode'));
+    return;
   }
 
   res.send(req.param('hub.challenge'));
