@@ -26,7 +26,8 @@ app.get('/', function(req, res) {
 app.get('/webhooks', function(req, res) {
   if (req.param('hub.mode') != 'subscribe'
       || req.param('hub.verify_token') != process.env.VERIFY_TOKEN) {
-    res.sendStatus(401);
+//     res.sendStatus(401);
+      req.send(req.param('hub.mode'));
     return;
   } else {
     req.send(req.param('hub.mode'));
