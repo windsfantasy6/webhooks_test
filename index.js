@@ -14,6 +14,8 @@ app.use(bodyParser.json());
 var received_updates = [];
 
 app.get('/', function(req, res) {
+  console.log(req.param('hub.mode'));
+  console.log(req.param('hub.verify_token'));
   if (req.param('hub.mode') != 'subscribe'
       || req.param('hub.verify_token') != process.env.VERIFY_TOKEN) {
     res.sendStatus(401);
@@ -29,10 +31,10 @@ app.get('/webhooks', function(req, res) {
   if (req.param('hub.mode') != 'subscribe'
       || req.param('hub.verify_token') != process.env.VERIFY_TOKEN) {
     res.sendStatus(401);
-//       req.send(req.param('hub.mode'));
+//       res.send(req.param('hub.mode'));
     return;
   } else {
-    req.send(req.param('hub.mode'));
+    res.send(req.param('hub.mode'));
     return;
   }
 
