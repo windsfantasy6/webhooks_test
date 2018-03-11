@@ -14,10 +14,10 @@ app.use(bodyParser.json());
 var received_updates = [];
 
 app.get('/', function(req, res) {
-  console.log(req.param('hub.mode'));
-  console.log(req.param('hub.verify_token'));
-  if (req.param('hub.mode') != 'subscribe'
-      || req.param('hub.verify_token') != process.env.VERIFY_TOKEN) {
+  console.log(req.params('hub.mode'));
+  console.log(req.params('hub.verify_token'));
+  if (req.params('hub.mode') != 'subscribe'
+      || req.params('hub.verify_token') != process.env.VERIFY_TOKEN) {
     res.sendStatus(401);
     return;
   }
@@ -26,19 +26,19 @@ app.get('/', function(req, res) {
 });
 
 app.get('/webhooks', function(req, res) {
-  console.log(req.param('hub.mode'));
-  console.log(req.param('hub.verify_token'));
-  if (req.param('hub.mode') != 'subscribe'
-      || req.param('hub.verify_token') != process.env.VERIFY_TOKEN) {
-    res.sendStatus(401);
-//       res.send(req.param('hub.mode'));
+  console.log(req.params('hub.mode'));
+  console.log(req.params('hub.verify_token'));
+  if (req.params('hub.mode') != 'subscribe'
+      || req.params('hub.verify_token') != process.env.VERIFY_TOKEN) {
+//     res.sendStatus(401);
+      res.send(req.params('hub.mode'));
     return;
   } else {
-    res.send(req.param('hub.mode'));
+    res.send(req.params('hub.mode'));
     return;
   }
 
-  res.send(req.param('hub.challenge'));
+  res.send(req.params('hub.challenge'));
 });
 
 app.post('/webhooks', function(req, res) {
